@@ -6,6 +6,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -38,5 +39,8 @@ public class Order {
 
     @ManyToOne
     private PaymentType paymentType;
+
+    @OneToMany
+    private List<OrderWithProducts> products;
 
 }

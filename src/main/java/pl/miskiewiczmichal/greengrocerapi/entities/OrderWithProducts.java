@@ -23,11 +23,11 @@ public class OrderWithProducts {
     private UUID id;
 
     private Double amount;
-
-    @ManyToOne
-    private Order order;
-
+    
     @ManyToOne
     private Product product;
+
+   /* @ManyToOne
+    private Order order;*/
 
 }
