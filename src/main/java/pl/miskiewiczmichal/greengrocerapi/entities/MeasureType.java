@@ -15,9 +15,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "category_tb")
-public class Category {
-
+@Entity(name = "measure_type_tb")
+public class MeasureType {
     @Id
     @GeneratedValue(generator = "uuid4")
     @GenericGenerator(name = "UUID", strategy = "uuid4")

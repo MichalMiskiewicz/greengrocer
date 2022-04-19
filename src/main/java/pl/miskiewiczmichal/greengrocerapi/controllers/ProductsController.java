@@ -1,7 +1,6 @@
 package pl.miskiewiczmichal.greengrocerapi.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddProductDTO;
@@ -17,13 +16,12 @@ public class ProductsController {
 
     private final ProductService productService;
 
-    @GetMapping("/all")
+    @GetMapping("/all/")
     public ResponseEntity<List<ProductDTO>> getProductsList(){
-
         return ResponseEntity.ok().body(productService.getAllProducts());
     }
 
-    @PostMapping("/new")
+    @PostMapping("/add")
     public ResponseEntity<ProductDTO> addProduct(@RequestBody AddProductDTO productDTO){
 
         return ResponseEntity.ok().body(productService.addNewProduct(productDTO));

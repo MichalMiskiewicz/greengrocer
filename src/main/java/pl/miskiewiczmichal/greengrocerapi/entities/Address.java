@@ -15,9 +15,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "category_tb")
-public class Category {
-
+@Entity(name = "address_tb")
+public class Address {
     @Id
     @GeneratedValue(generator = "uuid4")
     @GenericGenerator(name = "UUID", strategy = "uuid4")
@@ -25,5 +24,11 @@ public class Category {
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
 
-    private String name;
+    private String city;
+
+    private String street;
+
+    private String houseNumber;
+
+    private String zipCode;
 }

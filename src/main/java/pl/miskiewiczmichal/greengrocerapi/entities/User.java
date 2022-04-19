@@ -4,10 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Getter
@@ -15,9 +12,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "category_tb")
-public class Category {
-
+@Entity(name = "user_tb")
+public class User {
     @Id
     @GeneratedValue(generator = "uuid4")
     @GenericGenerator(name = "UUID", strategy = "uuid4")
@@ -25,5 +21,19 @@ public class Category {
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
 
+    private String username;
+
     private String name;
+
+    private String surname;
+
+    private String emailAddress;
+
+    private String telNumber;
+
+    @OneToOne
+    private Address address;
+
+    @ManyToOne
+    private UserType userType;
 }

@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "product")
+@Entity(name = "product_tb")
 public class Product {
     @Id
     @GeneratedValue(generator = "uuid4")
@@ -29,6 +29,11 @@ public class Product {
 
     @Column(nullable = false)
     private Double price;
+
+    private Integer amount;
+
+    @ManyToOne
+    private MeasureType measureType;
 
     @ManyToOne
     private Category category;

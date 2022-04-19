@@ -23,7 +23,6 @@ public class ProductService {
 
     public List<ProductDTO> getAllProducts(){
         List<Product> products = productRepository.findAll();
-       // List<Product> productsd = productRepository.getAllByCategory("jablka");
 
         return products.stream().map(productMapper::mapProductToProductDTO).collect(Collectors.toList());
     }
@@ -36,6 +35,7 @@ public class ProductService {
                 .description(productDTO.description)
                 .category(category)
                 .price(productDTO.price)
+                .amount(productDTO.amount)
                 .build();
         productRepository.save(product);
 

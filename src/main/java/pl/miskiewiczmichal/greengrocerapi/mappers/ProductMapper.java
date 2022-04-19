@@ -14,7 +14,8 @@ public interface ProductMapper {
             @Mapping(source = "product.name", target = "name"),
             @Mapping(source = "product.category.name", target = "category"),
             @Mapping(source = "product.description", target = "description"),
-            @Mapping(source = "product.price", target = "price")
+            @Mapping(source = "product.price", target = "price"),
+            @Mapping(source = "product.amount", target = "amount")
     })
     ProductDTO mapProductToProductDTO(Product product);
 }

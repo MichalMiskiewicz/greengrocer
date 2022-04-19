@@ -5,4 +5,5 @@ public class AddProductDTO {
     public String category;
     public String description;
     public Double price;
+    public Integer amount;
 }

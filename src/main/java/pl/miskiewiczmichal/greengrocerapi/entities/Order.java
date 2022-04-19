@@ -4,10 +4,8 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -15,9 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "category_tb")
-public class Category {
-
+@Entity(name = "order_tb")
+public class Order {
     @Id
     @GeneratedValue(generator = "uuid4")
     @GenericGenerator(name = "UUID", strategy = "uuid4")
@@ -25,5 +22,21 @@ public class Category {
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
 
-    private String name;
+    private Date creationDate;
+
+    private String description;
+
+    private String status;
+
+    private String warnings;
+
+    @ManyToOne
+    private User createdBy;
+
+    @ManyToOne
+    private User driver;
+
+    @ManyToOne
+    private PaymentType paymentType;
+
 }
