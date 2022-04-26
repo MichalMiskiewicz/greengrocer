@@ -4,17 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddOrderDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.OrderDTO;
-import pl.miskiewiczmichal.greengrocerapi.entities.Order;
-import pl.miskiewiczmichal.greengrocerapi.entities.OrderWithProducts;
-import pl.miskiewiczmichal.greengrocerapi.entities.PaymentType;
-import pl.miskiewiczmichal.greengrocerapi.entities.User;
+import pl.miskiewiczmichal.greengrocerapi.entities.*;
 import pl.miskiewiczmichal.greengrocerapi.mappers.OrderMapper;
-import pl.miskiewiczmichal.greengrocerapi.repositories.OrderRepository;
-import pl.miskiewiczmichal.greengrocerapi.repositories.OrderWithProductsRepository;
-import pl.miskiewiczmichal.greengrocerapi.repositories.PaymentRepository;
-import pl.miskiewiczmichal.greengrocerapi.repositories.UserRepository;
+import pl.miskiewiczmichal.greengrocerapi.repositories.*;
 
-import java.sql.Driver;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,6 +21,7 @@ public class OrderService {
     private final UserRepository userRepository;
     private final PaymentRepository paymentRepository;
     private final OrderWithProductsRepository orderWithProductsRepository;
+    private final ProductRepository productRepository;
 
     public List<OrderDTO> getAllOrders(){
         List<Order> orders = orderRepository.findAll();
@@ -50,20 +44,38 @@ public class OrderService {
     public OrderDTO addNewOrder(AddOrderDTO addOrderDTO, UUID uuid){
         java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 
-
+        //pobranie usera dla orderu
         Optional<User> optionalUser = userRepository.findById(uuid);
+
+        //obiekt z tabeli payment
         Optional<PaymentType> optionalPaymentType = paymentRepository.getByName(addOrderDTO.payment.getName());
 
+        //wywołanie metody
+        List<OrderWithProducts> ord = addOrderDTO.products.stream().map(this::getOrderWithProducts).collect(Collectors.toList());
+
+        //tworzenie orderu i dodanie
         Order order = Order.builder().creationDate(date)
                 .description(addOrderDTO.description)
                 .warnings(addOrderDTO.warnings)
                 .createdBy(optionalUser.get())
                 .paymentType(optionalPaymentType.get())
-                //.products(addOrderDTO.products)
+                .products(ord)
                 .build();
         orderRepository.save(order);
 
         return orderMapper.mapOrderToOrderDTO(order);
+    }
+
+    private OrderWithProducts getOrderWithProducts(OrderWithProducts product) {
+        //jeden z zakupionych produktów
+        Optional<Product> optionalProduct = productRepository.findById(product.getId());
+
+        //zapisanie do tabeli order_products_tb produktu i ilosc
+        OrderWithProducts orderWithProducts = OrderWithProducts.builder().amount(product.getAmount())
+                .product(optionalProduct.get())
+                .build();
+        orderWithProductsRepository.save(orderWithProducts);
+        return orderWithProducts;
     }
 
     public OrderDTO updateStatus(AddOrderDTO orderDTO, UUID  uuid){
@@ -82,44 +94,3 @@ public class OrderService {
     }
 
 }
-/*
-
-
-    public UserDTO addNewUser(AddUserDTO userDTO){
-
-        Address address = getAddress(userDTO.address);
-        Optional<UserType> optionalUserType = userTypeRepository.getAllByName(userDTO.userType.getName());
-
-        User user = User.builder().username(userDTO.username)
-                .name(userDTO.name)
-                .surname(userDTO.surname)
-                .emailAddress(userDTO.eMail)
-                .telNumber(userDTO.telNumber)
-                .address(address)
-                .userType(optionalUserType.get())
-                .build();
-        userRepository.save(user);
-
-        return userMapper.mapUserToUserDTO(user);
-    }
-
-    private Address getAddress(Address address) {
-        Address newAddress;
-        Optional<Address> optionalAddress = addressRepository
-                .getAddressByCityAndAndStreetAndHouseNumber(
-                        address.getCity(),
-                        address.getStreet(),
-                        address.getHouseNumber());
-
-        if(optionalAddress.isEmpty()){
-            newAddress = Address.builder().city(address.getCity())
-                    .houseNumber(address.getHouseNumber())
-                    .street(address.getZipCode())
-                    .zipCode(address.getZipCode())
-                    .build();
-            addressRepository.save(newAddress);
-        } else{
-            newAddress = optionalAddress.get();
-        }
-        return newAddress;
-    }*/

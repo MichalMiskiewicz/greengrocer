@@ -12,11 +12,12 @@ public interface UserMapper {
             @Mapping(source = "user.id", target = "userId"),
             @Mapping(source = "user.username", target = "username"),
             @Mapping(source = "user.emailAddress", target = "eMail"),
+            @Mapping(source = "user.password", target = "password"),
             @Mapping(source = "user.name", target = "name"),
             @Mapping(source = "user.surname", target = "surname"),
             @Mapping(source = "user.telNumber", target = "telNumber"),
             @Mapping(source = "user.address", target = "address"),
-            @Mapping(source = "user.userType.name", target = "userType")
+            @Mapping(source = "user.userType", target = "userType")
     })
     UserDTO mapUserToUserDTO(User user);
 }

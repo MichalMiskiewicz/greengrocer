@@ -3,9 +3,12 @@ package pl.miskiewiczmichal.greengrocerapi.entities;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -13,7 +16,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity(name = "user_tb")
-public class User {
+public class User implements UserDetails {
+
+    public User(String n, String m, List<SimpleGrantedAuthority> l){
+        this.username = n;
+        this.password = m;
+        this.userType = l.get(0).toString();
+    }
+
     @Id
     @GeneratedValue(generator = "uuid4")
     @GenericGenerator(name = "UUID", strategy = "uuid4")
@@ -29,11 +39,39 @@ public class User {
 
     private String emailAddress;
 
+    private String password;
+
     private String telNumber;
 
     @OneToOne
     private Address address;
 
-    @ManyToOne
-    private UserType userType;
+    private String userType;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> list = new ArrayList<>();
+        list.add(new SimpleGrantedAuthority(String.format("ROLE_%s", this.userType )));
+        return list;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

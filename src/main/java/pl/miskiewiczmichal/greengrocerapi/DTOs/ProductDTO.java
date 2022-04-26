@@ -1,5 +1,7 @@
 package pl.miskiewiczmichal.greengrocerapi.DTOs;
 
+import pl.miskiewiczmichal.greengrocerapi.entities.MeasureType;
+
 import java.util.UUID;
 
 public class ProductDTO {
@@ -9,4 +11,5 @@ public class ProductDTO {
     public String description;
     public Double price;
     public Integer amount;
+    public MeasureType measureType;
 }

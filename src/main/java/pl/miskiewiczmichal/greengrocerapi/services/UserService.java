@@ -1,6 +1,9 @@
 package pl.miskiewiczmichal.greengrocerapi.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddUserDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.UserDTO;
@@ -26,6 +29,7 @@ public class UserService {
     private final AddressRepository addressRepository;
     private final UserTypeRepository userTypeRepository;
     private final UserTypesMapper userTypesMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public List<UserDTO> getAllDrivers(){
        List<User> users = userRepository.getDrivers();
@@ -36,15 +40,14 @@ public class UserService {
     public UserDTO addNewUser(AddUserDTO userDTO){
 
         Address address = getAddress(userDTO.address);
-        Optional<UserType> optionalUserType = userTypeRepository.getAllByName(userDTO.userType.getName());
-
         User user = User.builder().username(userDTO.username)
                 .name(userDTO.name)
                 .surname(userDTO.surname)
                 .emailAddress(userDTO.eMail)
+                .password(passwordEncoder.encode(userDTO.password))
                 .telNumber(userDTO.telNumber)
                 .address(address)
-                .userType(optionalUserType.get())
+                .userType(userDTO.userType)
                 .build();
         userRepository.save(user);
 

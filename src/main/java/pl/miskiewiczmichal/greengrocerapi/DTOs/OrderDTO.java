@@ -1,5 +1,6 @@
 package pl.miskiewiczmichal.greengrocerapi.DTOs;
 
+import pl.miskiewiczmichal.greengrocerapi.entities.OrderWithProducts;
 import pl.miskiewiczmichal.greengrocerapi.entities.PaymentType;
 import pl.miskiewiczmichal.greengrocerapi.entities.User;
 
@@ -16,4 +17,5 @@ public class OrderDTO {
     public String status;
     public String warnings;
     public PaymentType payment;
+    public List<OrderWithProducts> products;
 }

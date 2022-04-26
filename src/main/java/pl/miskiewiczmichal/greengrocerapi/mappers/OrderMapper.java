@@ -16,7 +16,8 @@ public interface OrderMapper {
             @Mapping(source = "order.driver", target = "driver"),
             @Mapping(source = "order.status", target = "status"),
             @Mapping(source = "order.warnings", target = "warnings"),
-            @Mapping(source = "order.paymentType", target = "payment")
+            @Mapping(source = "order.paymentType", target = "payment"),
+            @Mapping(source = "order.products", target = "products")
     })
     OrderDTO mapOrderToOrderDTO(Order order);
 }

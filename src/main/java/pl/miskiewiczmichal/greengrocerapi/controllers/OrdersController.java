@@ -10,6 +10,7 @@ import pl.miskiewiczmichal.greengrocerapi.services.OrderService;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin
 @AllArgsConstructor
 @RequestMapping("/orders")
 @RestController

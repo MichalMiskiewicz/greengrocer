@@ -8,5 +8,5 @@ import java.util.UUID;
 
 public interface UserTypeRepository extends JpaRepository<UserType, UUID> {
 
-    Optional<UserType> getAllByName(String name);
+    Optional<String> getAllByName(String name);
 }

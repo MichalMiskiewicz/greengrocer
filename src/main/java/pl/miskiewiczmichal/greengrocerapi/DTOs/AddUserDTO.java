@@ -9,7 +9,8 @@ public class AddUserDTO {
     public String name;
     public String surname;
     public String eMail;
+    public String password;
     public String telNumber;
     public Address address;
-    public UserType userType;
+    public String userType;
 }

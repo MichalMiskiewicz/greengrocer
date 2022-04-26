@@ -10,13 +10,14 @@ import pl.miskiewiczmichal.greengrocerapi.services.UserService;
 
 import java.util.List;
 
+@CrossOrigin
 @AllArgsConstructor
 @RequestMapping("/users")
 @RestController
 public class UsersController {
     private final UserService userService;
 
-    @GetMapping("/drivers/all/")
+    @GetMapping("/drivers/all")
     public ResponseEntity<List<UserDTO>> getDriversList(){
         return ResponseEntity.ok().body(userService.getAllDrivers());
     }
