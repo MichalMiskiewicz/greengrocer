@@ -1,13 +1,21 @@
 package pl.miskiewiczmichal.greengrocerapi.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddProductDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.CategoryDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.ProductDTO;
 import pl.miskiewiczmichal.greengrocerapi.services.ProductService;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @CrossOrigin
@@ -15,6 +23,7 @@ import java.util.List;
 @RequestMapping("/products")
 @RestController
 public class ProductsController {
+    public static String uploadDirectory = "C:\\Users\\mdmis\\Desktop\\INŻYNIERKA\\projekt\\greengrocer-frontend\\src\\assets\\img\\";
 
     private final ProductService productService;
 
@@ -33,4 +42,20 @@ public class ProductsController {
 
         return ResponseEntity.ok().body(productService.addNewProduct(productDTO));
     }
+
+    @PostMapping(value = "/upload",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE} )
+    public ResponseEntity<String> uploadSingleFileExample4(@RequestBody MultipartFile file) throws IOException {
+        System.out.println(file);
+        System.out.println("Request contains, File: " + file.getOriginalFilename());
+        // Add your processing logic here
+        StringBuilder fileName = new StringBuilder();
+        Path fileNameAndPath = Paths.get(uploadDirectory, file.getOriginalFilename());
+        fileName.append(file.getOriginalFilename());
+        Files.write(fileNameAndPath, file.getBytes());
+
+        return ResponseEntity.ok().body(fileNameAndPath + "");
+    }
+
 }

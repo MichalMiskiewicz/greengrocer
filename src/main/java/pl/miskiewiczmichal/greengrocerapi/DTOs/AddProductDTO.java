@@ -8,5 +8,6 @@ public class AddProductDTO {
     public String description;
     public Double price;
     public Integer amount;
+    public String imgFileSrc;
     public String measureType;
 }

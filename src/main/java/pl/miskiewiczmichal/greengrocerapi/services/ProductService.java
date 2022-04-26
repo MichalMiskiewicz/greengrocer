@@ -44,6 +44,7 @@ public class ProductService {
                 .category(category)
                 .price(productDTO.price)
                 .amount(productDTO.amount)
+                .imgFileSrc(productDTO.imgFileSrc)
                 .measureType(measureType)
                 .build();
         productRepository.save(product);

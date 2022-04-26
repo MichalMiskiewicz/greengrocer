@@ -32,6 +32,8 @@ public class Product {
 
     private Integer amount;
 
+    private String imgFileSrc;
+
     @ManyToOne
     private MeasureType measureType;
 

@@ -11,5 +11,6 @@ public class ProductDTO {
     public String description;
     public Double price;
     public Integer amount;
+    public String imgFileSrc;
     public MeasureType measureType;
 }
