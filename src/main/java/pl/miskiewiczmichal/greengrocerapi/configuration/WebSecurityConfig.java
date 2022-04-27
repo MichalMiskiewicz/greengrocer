@@ -64,7 +64,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/authenticate").permitAll()
-                //.antMatchers(HttpMethod.GET, "/products/all").hasAuthority("ROLE_Admin")
+                .antMatchers(HttpMethod.POST, "/products/add").hasAuthority("ROLE_Admin")
+                .antMatchers(HttpMethod.GET, "/orders/all").hasAuthority("ROLE_Admin")
+                .antMatchers(HttpMethod.GET, "/users/drivers/all/").hasAuthority("ROLE_Admin")
+                .antMatchers(HttpMethod.PATCH, "/orders/{order_id}/status-change").hasAuthority("ROLE_Admin")
+                .antMatchers(HttpMethod.PATCH, "/orders/{order_id}/status-change").hasAuthority("ROLE_Kierowca")
+                .antMatchers(HttpMethod.PATCH, "/orders/{order_id}/driver-set/{driver_id}").hasAuthority("ROLE_Admin")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

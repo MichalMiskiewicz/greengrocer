@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pl.miskiewiczmichal.greengrocerapi.DTOs.UserAuthDTO;
 import pl.miskiewiczmichal.greengrocerapi.configuration.JwtTokenUtil;
 import pl.miskiewiczmichal.greengrocerapi.entities.User;
+import pl.miskiewiczmichal.greengrocerapi.mappers.UserMapper;
 import pl.miskiewiczmichal.greengrocerapi.repositories.UserRepository;
 
 import java.nio.charset.StandardCharsets;
@@ -24,6 +26,8 @@ import java.nio.charset.StandardCharsets;
 @RestController
 public class JwtAuthenticationController {
     private final UserRepository userRepository;
+
+    private final UserMapper userMapper;
 
     private final AuthenticationManager authenticationManager;
 
@@ -43,7 +47,9 @@ public class JwtAuthenticationController {
 
         User user = userRepository.getByUsername(userDetails.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token + '|' + user.getUserType()));
+        UserAuthDTO userAuthDTO = userMapper.userDetailsToUserAuthDTO(user.getId(), user.getUserType(), user.getUsername(), token);
+        //return ResponseEntity.ok(new JwtResponse(token + '|' + user.getUserType() + '|' + user.getId()));
+        return ResponseEntity.ok(userAuthDTO);
     }
 
     private void authenticate(String username, String password) throws Exception {
