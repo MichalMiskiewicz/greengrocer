@@ -8,6 +8,6 @@ import java.util.UUID;
 
 public interface OrderRepository extends JpaRepository<Order, UUID> {
 
-    List<Order> getAllByCreatedBy_Id(UUID uuid);
-    List<Order> getAllByDriver_Id(UUID uuid);
+    List<Order> getAllByCreatedBy_IdOrderByCreationDateDesc(UUID uuid);
+    List<Order> getAllByDriver_IdOrderByCreationDateDesc(UUID uuid);
 }

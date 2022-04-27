@@ -1,6 +1,8 @@
 package pl.miskiewiczmichal.greengrocerapi.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddProductDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.CategoryDTO;
@@ -28,7 +30,7 @@ public class ProductService {
     private final MeasureTypeRepository measureTypeRepository;
 
     public List<ProductDTO> getAllProducts(){
-        List<Product> products = productRepository.findAll();
+        List<Product> products = (List<Product>) productRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
 
         return products.stream().map(productMapper::mapProductToProductDTO).collect(Collectors.toList());
     }

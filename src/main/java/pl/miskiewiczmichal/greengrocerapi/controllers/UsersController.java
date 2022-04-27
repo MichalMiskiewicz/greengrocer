@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddUserDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.UserDTO;
-import pl.miskiewiczmichal.greengrocerapi.DTOs.UserTypesDTO;
 import pl.miskiewiczmichal.greengrocerapi.services.UserService;
 
 import java.util.List;
@@ -27,8 +26,4 @@ public class UsersController {
         return ResponseEntity.ok().body(userService.addNewUser(addUserDTO));
     }
 
-    @GetMapping("/users-types")
-    public ResponseEntity<List<UserTypesDTO>> getUserTypes(){
-        return ResponseEntity.ok().body(userService.getUsersTypes());
-    }
 }

@@ -1,21 +1,15 @@
 package pl.miskiewiczmichal.greengrocerapi.services;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddUserDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.UserDTO;
-import pl.miskiewiczmichal.greengrocerapi.DTOs.UserTypesDTO;
 import pl.miskiewiczmichal.greengrocerapi.entities.Address;
 import pl.miskiewiczmichal.greengrocerapi.entities.User;
-import pl.miskiewiczmichal.greengrocerapi.entities.UserType;
 import pl.miskiewiczmichal.greengrocerapi.mappers.UserMapper;
-import pl.miskiewiczmichal.greengrocerapi.mappers.UserTypesMapper;
 import pl.miskiewiczmichal.greengrocerapi.repositories.AddressRepository;
 import pl.miskiewiczmichal.greengrocerapi.repositories.UserRepository;
-import pl.miskiewiczmichal.greengrocerapi.repositories.UserTypeRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +21,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final AddressRepository addressRepository;
-    private final UserTypeRepository userTypeRepository;
-    private final UserTypesMapper userTypesMapper;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public List<UserDTO> getAllDrivers(){
@@ -37,17 +29,17 @@ public class UserService {
         return users.stream().map(userMapper::mapUserToUserDTO).collect(Collectors.toList());
     }
 
-    public UserDTO addNewUser(AddUserDTO userDTO){
+    public UserDTO addNewUser(AddUserDTO addUserDTO){
 
-        Address address = getAddress(userDTO.address);
-        User user = User.builder().username(userDTO.username)
-                .name(userDTO.name)
-                .surname(userDTO.surname)
-                .emailAddress(userDTO.eMail)
-                .password(passwordEncoder.encode(userDTO.password))
-                .telNumber(userDTO.telNumber)
+        Address address = getAddress(addUserDTO.address);
+        User user = User.builder().username(addUserDTO.username)
+                .name(addUserDTO.name)
+                .surname(addUserDTO.surname)
+                .emailAddress(addUserDTO.eMail)
+                .password(passwordEncoder.encode(addUserDTO.password))
+                .telNumber(addUserDTO.telNumber)
                 .address(address)
-                .userType(userDTO.userType)
+                .userType(addUserDTO.userType)
                 .build();
         userRepository.save(user);
 
@@ -74,12 +66,6 @@ public class UserService {
             newAddress = optionalAddress.get();
         }
         return newAddress;
-    }
-
-    public List<UserTypesDTO> getUsersTypes(){
-        List<UserType> types = userTypeRepository.findAll();
-
-        return types.stream().map(userTypesMapper::mapUserTypeToUserTypesDTO).collect(Collectors.toList());
     }
 
 

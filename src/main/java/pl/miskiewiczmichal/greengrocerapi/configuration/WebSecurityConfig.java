@@ -1,7 +1,6 @@
 package pl.miskiewiczmichal.greengrocerapi.configuration;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,14 +13,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import pl.miskiewiczmichal.greengrocerapi.entities.UserType;
 
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
@@ -63,13 +59,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/authenticate").permitAll()
+                .antMatchers(HttpMethod.POST, "/authenticate", "/users/add").permitAll()/*
                 .antMatchers(HttpMethod.POST, "/products/add").hasAuthority("ROLE_Admin")
                 .antMatchers(HttpMethod.GET, "/orders/all").hasAuthority("ROLE_Admin")
                 .antMatchers(HttpMethod.GET, "/users/drivers/all/").hasAuthority("ROLE_Admin")
                 .antMatchers(HttpMethod.PATCH, "/orders/{order_id}/status-change").hasAuthority("ROLE_Admin")
                 .antMatchers(HttpMethod.PATCH, "/orders/{order_id}/status-change").hasAuthority("ROLE_Kierowca")
-                .antMatchers(HttpMethod.PATCH, "/orders/{order_id}/driver-set/{driver_id}").hasAuthority("ROLE_Admin")
+                .antMatchers(HttpMethod.PATCH, "/orders/{order_id}/driver-set/{driver_id}").hasAuthority("ROLE_Admin")*/
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    @Query(value = "SELECT * FROM user_tb u join user_type_tb ut on u.user_type_id = ut.id where ut.name = 'Kierowca';"
+    @Query(value = "SELECT * FROM user_tb u WHERE u.user_type = 'Kierowca';"
             , nativeQuery = true)
     List<User> getDrivers();
 

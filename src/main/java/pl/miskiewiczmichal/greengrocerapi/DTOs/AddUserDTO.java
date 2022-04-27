@@ -1,7 +1,6 @@
 package pl.miskiewiczmichal.greengrocerapi.DTOs;
 
 import pl.miskiewiczmichal.greengrocerapi.entities.Address;
-import pl.miskiewiczmichal.greengrocerapi.entities.UserType;
 
 
 public class AddUserDTO {
