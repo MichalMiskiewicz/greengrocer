@@ -12,7 +12,6 @@ public interface OrderMapper {
             @Mapping(source = "order.id", target = "orderId"),
             @Mapping(source = "order.creationDate", target = "creationDate"),
             @Mapping(source = "order.createdBy", target = "createdBy"),
-            @Mapping(source = "order.description", target = "description"),
             @Mapping(source = "order.driver", target = "driver"),
             @Mapping(source = "order.status", target = "status"),
             @Mapping(source = "order.warnings", target = "warnings"),

@@ -10,7 +10,6 @@ import java.util.List;
 public class AddOrderDTO {
     public Date creationDate;
     public User createdBy;
-    public String description;
     public User driver;
     public String status;
     public String warnings;

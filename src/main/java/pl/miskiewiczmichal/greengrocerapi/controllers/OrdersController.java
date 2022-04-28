@@ -48,7 +48,7 @@ public class OrdersController {
     }
 
     @PatchMapping("/{order_id}/driver-set/{driver_id}")
-    public ResponseEntity<OrderDTO> setDriverToOrder(@PathVariable("order_id") UUID uuid, @PathVariable("driver_id") UUID uuid2){
+    public ResponseEntity<OrderDTO> setDriverToOrder(@PathVariable("order_id") UUID uuid, @PathVariable("driver_id") UUID uuid2) throws Exception {
 
         return ResponseEntity.ok().body(orderService.setDriver(uuid, uuid2));
     }

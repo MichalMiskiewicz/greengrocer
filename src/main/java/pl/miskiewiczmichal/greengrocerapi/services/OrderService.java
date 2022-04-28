@@ -1,6 +1,7 @@
 package pl.miskiewiczmichal.greengrocerapi.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddOrderDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.OrderDTO;
@@ -56,21 +57,29 @@ public class OrderService {
             throw new Exception("Payment type not found!");
 
         //wywołanie metody
-        List<OrderWithProducts> products = addOrderDTO.products.stream().map(this::getOrderWithProducts).collect(Collectors.toList());
+        List<OrderWithProducts> products = addOrderDTO.products.stream().map(x -> {
+            try{
+               return this.getOrderWithProducts(x);
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }).collect(Collectors.toList());
 
-        products.stream().forEach(x -> {
+        products.forEach(x -> {
             updateProductAmount(x.getAmount().intValue(), x.getProduct());
         });
 
         //tworzenie orderu i dodanie
         Order order = Order.builder().creationDate(date)
-                .description(addOrderDTO.description)
                 .warnings(addOrderDTO.warnings)
                 .createdBy(optionalUser.get())
                 .paymentType(optionalPaymentType.get())
                 .products(products)
                 .build();
+
         orderRepository.save(order);
+
 
         return orderMapper.mapOrderToOrderDTO(order);
     }
@@ -81,11 +90,13 @@ public class OrderService {
         productRepository.save(product);
     }
 
-    private OrderWithProducts getOrderWithProducts(OrderWithProducts product) {
+    private OrderWithProducts getOrderWithProducts(OrderWithProducts product) throws Exception {
         //jeden z zakupionych produktów
         Optional<Product> optionalProduct = productRepository.findById(product.getId());
 
-        //zapisanie do tabeli order_products_tb produktu i ilosc
+        if(optionalProduct.isEmpty())
+            throw new Exception("Product not found!");
+
         OrderWithProducts orderWithProducts = OrderWithProducts.builder().amount(product.getAmount())
                 .product(optionalProduct.get())
                 .build();
@@ -100,9 +111,19 @@ public class OrderService {
         return orderMapper.mapOrderToOrderDTO(order);
     }
 
-    public OrderDTO setDriver(UUID orderId, UUID driverId){
-        Order order = orderRepository.findById(orderId).get();
-        User driver = userRepository.findById(driverId).get();
+    public OrderDTO setDriver(UUID orderId, UUID driverId) throws Exception {
+        Order order = new Order();
+        User driver = new User();
+        if(orderRepository.findById(orderId).isPresent()) {
+            order = orderRepository.findById(orderId).get();
+        }else {
+            throw new Exception("Order not found!");
+        }
+        if(userRepository.findById(driverId).isPresent()) {
+            driver = userRepository.findById(driverId).get();
+        }else {
+            throw new Exception("Driver not found!");
+        }
         order.setDriver(driver);
         orderRepository.save(order);
         return orderMapper.mapOrderToOrderDTO(order);

@@ -25,22 +25,23 @@ public class Order {
 
     private Date creationDate;
 
-    private String description;
-
     private String status;
 
     private String warnings;
 
     @ManyToOne
+    @NonNull
     private User createdBy;
 
     @ManyToOne
     private User driver;
 
     @ManyToOne
+    @NonNull
     private PaymentType paymentType;
 
     @OneToMany
+    @NonNull
     private List<OrderWithProducts> products;
 
 }

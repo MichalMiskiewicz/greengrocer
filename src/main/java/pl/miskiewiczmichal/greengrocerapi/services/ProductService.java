@@ -35,10 +35,13 @@ public class ProductService {
         return products.stream().map(productMapper::mapProductToProductDTO).collect(Collectors.toList());
     }
 
-    public ProductDTO addNewProduct(AddProductDTO productDTO){
+    public ProductDTO addNewProduct(AddProductDTO productDTO) throws Exception {
 
         Category category = getCategory(productDTO.category);
-        MeasureType measureType = measureTypeRepository.getByName(productDTO.measureType);
+        Optional<MeasureType> optionalMeasureType = Optional.ofNullable(measureTypeRepository.getByName(productDTO.measureType));
+        if(optionalMeasureType.isEmpty()){
+            throw new Exception("Measure type not found!");
+        }
 
         Product product = Product.builder().name(productDTO.name)
                 .description(productDTO.description)
@@ -46,7 +49,7 @@ public class ProductService {
                 .price(productDTO.price)
                 .amount(productDTO.amount)
                 .imgFileSrc(productDTO.imgFileSrc)
-                .measureType(measureType)
+                .measureType(optionalMeasureType.get())
                 .build();
         productRepository.save(product);
 
