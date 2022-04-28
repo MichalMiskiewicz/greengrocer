@@ -41,20 +41,24 @@ public class OrderService {
         return orders.stream().map(orderMapper::mapOrderToOrderDTO).collect(Collectors.toList());
     }
 
-    public OrderDTO addNewOrder(AddOrderDTO addOrderDTO, UUID uuid){
+    public OrderDTO addNewOrder(AddOrderDTO addOrderDTO, UUID uuid) throws Exception {
         java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 
         //pobranie usera dla orderu
         Optional<User> optionalUser = userRepository.findById(uuid);
+        if(optionalUser.isEmpty())
+            throw new Exception("User not found!");
+
 
         //obiekt z tabeli payment
         Optional<PaymentType> optionalPaymentType = paymentRepository.getByName(addOrderDTO.payment.getName());
+        if(optionalPaymentType.isEmpty())
+            throw new Exception("Payment type not found!");
 
         //wywołanie metody
-        List<OrderWithProducts> ord = addOrderDTO.products.stream().map(this::getOrderWithProducts).collect(Collectors.toList());
-        //productRepository.
+        List<OrderWithProducts> products = addOrderDTO.products.stream().map(this::getOrderWithProducts).collect(Collectors.toList());
 
-        ord.stream().forEach(x -> {
+        products.stream().forEach(x -> {
             updateProductAmount(x.getAmount().intValue(), x.getProduct());
         });
 
@@ -64,7 +68,7 @@ public class OrderService {
                 .warnings(addOrderDTO.warnings)
                 .createdBy(optionalUser.get())
                 .paymentType(optionalPaymentType.get())
-                .products(ord)
+                .products(products)
                 .build();
         orderRepository.save(order);
 

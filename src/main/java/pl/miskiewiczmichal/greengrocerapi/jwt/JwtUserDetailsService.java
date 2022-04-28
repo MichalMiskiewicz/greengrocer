@@ -1,4 +1,4 @@
-package pl.miskiewiczmichal.greengrocerapi;
+package pl.miskiewiczmichal.greengrocerapi.jwt;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -47,9 +47,6 @@ public class ProductsController {
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE} )
     public ResponseEntity<String> uploadSingleFileExample4(@RequestBody MultipartFile file) throws IOException {
-        System.out.println(file);
-        System.out.println("Request contains, File: " + file.getOriginalFilename());
-        // Add your processing logic here
         StringBuilder fileName = new StringBuilder();
         Path fileNameAndPath = Paths.get(uploadDirectory, file.getOriginalFilename());
         fileName.append(file.getOriginalFilename());

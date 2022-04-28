@@ -40,7 +40,6 @@ public class ProductService {
         Category category = getCategory(productDTO.category);
         MeasureType measureType = measureTypeRepository.getByName(productDTO.measureType);
 
-
         Product product = Product.builder().name(productDTO.name)
                 .description(productDTO.description)
                 .category(category)

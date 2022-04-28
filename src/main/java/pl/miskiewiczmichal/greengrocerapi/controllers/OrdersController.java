@@ -36,7 +36,7 @@ public class OrdersController {
     }
 
     @PostMapping("/add/{user_id}")
-    public ResponseEntity<OrderDTO> addNewOrder(@RequestBody AddOrderDTO orderDTO, @PathVariable("user_id") UUID uuid){
+    public ResponseEntity<OrderDTO> addNewOrder(@RequestBody AddOrderDTO orderDTO, @PathVariable("user_id") UUID uuid) throws Exception {
 
         return ResponseEntity.ok().body(orderService.addNewOrder(orderDTO, uuid));
     }

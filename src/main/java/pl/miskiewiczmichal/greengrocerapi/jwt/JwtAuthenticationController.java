@@ -1,7 +1,6 @@
-package pl.miskiewiczmichal.greengrocerapi;
+package pl.miskiewiczmichal.greengrocerapi.jwt;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,8 +17,6 @@ import pl.miskiewiczmichal.greengrocerapi.configuration.JwtTokenUtil;
 import pl.miskiewiczmichal.greengrocerapi.entities.User;
 import pl.miskiewiczmichal.greengrocerapi.mappers.UserMapper;
 import pl.miskiewiczmichal.greengrocerapi.repositories.UserRepository;
-
-import java.nio.charset.StandardCharsets;
 
 @AllArgsConstructor
 @CrossOrigin
