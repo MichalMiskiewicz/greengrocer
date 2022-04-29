@@ -17,6 +17,7 @@ import pl.miskiewiczmichal.greengrocerapi.repositories.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -53,6 +54,19 @@ public class ProductService {
         productRepository.save(product);
 
         return productMapper.mapProductToProductDTO(product);
+    }
+
+    public ProductDTO updateProductsAmount(UUID productId, Integer productAmount){
+        Optional<Product> productOptional = productRepository.findById(productId);
+        Product product = new Product();
+        if(productOptional.isPresent()){
+            productOptional.get().setAmount(productOptional.get().getAmount() + productAmount);
+            productRepository.save(productOptional.get());
+            product = productOptional.get();
+        }
+
+        return productMapper.mapProductToProductDTO(product);
+
     }
 
     private Category getCategory(String categoryName) {

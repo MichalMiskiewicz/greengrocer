@@ -1,4 +1,4 @@
-package pl.miskiewiczmichal.greengrocerapi.jwt;
+package pl.miskiewiczmichal.greengrocerapi.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,7 +10,6 @@ import pl.miskiewiczmichal.greengrocerapi.entities.User;
 import pl.miskiewiczmichal.greengrocerapi.repositories.UserRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor

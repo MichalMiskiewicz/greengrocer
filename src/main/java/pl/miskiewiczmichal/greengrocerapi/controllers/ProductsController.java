@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin
 @AllArgsConstructor
@@ -41,6 +42,12 @@ public class ProductsController {
     public ResponseEntity<ProductDTO> addProduct(@RequestBody AddProductDTO productDTO) throws Exception {
 
         return ResponseEntity.ok().body(productService.addNewProduct(productDTO));
+    }
+
+    @PatchMapping("/amount/{product_id}/{product_amount}")
+    public ResponseEntity<ProductDTO> setProductAmount(@PathVariable("product_id") UUID uuid, @PathVariable("product_amount") Integer amount) throws Exception {
+
+        return ResponseEntity.ok().body(productService.updateProductsAmount(uuid, amount));
     }
 
     @PostMapping(value = "/upload",

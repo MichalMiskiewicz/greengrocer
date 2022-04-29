@@ -59,13 +59,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/authenticate", "/users/add").permitAll()/*
+                .antMatchers(HttpMethod.POST, "/authenticate", "/users/add").permitAll()
                 .antMatchers(HttpMethod.POST, "/products/add").hasAuthority("ROLE_Admin")
+                .antMatchers(HttpMethod.POST, "/products/upload").hasAuthority("ROLE_Admin")
+                .antMatchers(HttpMethod.PATCH, "/products/amount/{product_id}/{product_amount}").hasAuthority("ROLE_Admin")
+                .antMatchers(HttpMethod.POST, "/users/add").hasAuthority("ROLE_Admin")
                 .antMatchers(HttpMethod.GET, "/orders/all").hasAuthority("ROLE_Admin")
                 .antMatchers(HttpMethod.GET, "/users/drivers/all/").hasAuthority("ROLE_Admin")
                 .antMatchers(HttpMethod.PATCH, "/orders/{order_id}/status-change").hasAuthority("ROLE_Admin")
                 .antMatchers(HttpMethod.PATCH, "/orders/{order_id}/status-change").hasAuthority("ROLE_Kierowca")
-                .antMatchers(HttpMethod.PATCH, "/orders/{order_id}/driver-set/{driver_id}").hasAuthority("ROLE_Admin")*/
+                .antMatchers(HttpMethod.PATCH, "/orders/{order_id}/driver-set/{driver_id}").hasAuthority("ROLE_Admin")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

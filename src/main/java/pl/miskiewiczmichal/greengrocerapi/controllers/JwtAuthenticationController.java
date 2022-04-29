@@ -1,4 +1,4 @@
-package pl.miskiewiczmichal.greengrocerapi.jwt;
+package pl.miskiewiczmichal.greengrocerapi.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.UserAuthDTO;
 import pl.miskiewiczmichal.greengrocerapi.configuration.JwtTokenUtil;
 import pl.miskiewiczmichal.greengrocerapi.entities.User;
+import pl.miskiewiczmichal.greengrocerapi.jwt.JwtRequest;
 import pl.miskiewiczmichal.greengrocerapi.mappers.UserMapper;
 import pl.miskiewiczmichal.greengrocerapi.repositories.UserRepository;
+import pl.miskiewiczmichal.greengrocerapi.services.JwtUserDetailsService;
 
 @AllArgsConstructor
 @CrossOrigin
@@ -45,7 +47,6 @@ public class JwtAuthenticationController {
         User user = userRepository.getByUsername(userDetails.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
         UserAuthDTO userAuthDTO = userMapper.userDetailsToUserAuthDTO(user.getId(), user.getUserType(), user.getUsername(), token);
-        //return ResponseEntity.ok(new JwtResponse(token + '|' + user.getUserType() + '|' + user.getId()));
         return ResponseEntity.ok(userAuthDTO);
     }
 

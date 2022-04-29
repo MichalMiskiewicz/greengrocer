@@ -17,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 
 import io.jsonwebtoken.ExpiredJwtException;
-import pl.miskiewiczmichal.greengrocerapi.jwt.JwtUserDetailsService;
+import pl.miskiewiczmichal.greengrocerapi.services.JwtUserDetailsService;
 
 @AllArgsConstructor
 @Component
