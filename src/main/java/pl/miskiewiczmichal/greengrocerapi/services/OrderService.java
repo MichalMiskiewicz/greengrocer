@@ -1,7 +1,6 @@
 package pl.miskiewiczmichal.greengrocerapi.services;
 
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddOrderDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.OrderDTO;
@@ -61,8 +60,7 @@ public class OrderService {
             try{
                return this.getOrderWithProducts(x);
             }catch (Exception e){
-                e.printStackTrace();
-                return null;
+                throw new RuntimeException(e);
             }
         }).collect(Collectors.toList());
 

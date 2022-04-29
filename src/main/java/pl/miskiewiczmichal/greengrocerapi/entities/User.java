@@ -31,6 +31,7 @@ public class User implements UserDetails {
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
 
+    @Column(unique = true)
     private String username;
 
     private String name;

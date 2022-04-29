@@ -1,7 +1,6 @@
 package pl.miskiewiczmichal.greengrocerapi.services;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddProductDTO;
