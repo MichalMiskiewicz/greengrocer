@@ -6,13 +6,16 @@ import org.springframework.stereotype.Service;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddProductDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.CategoryDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.ProductDTO;
+import pl.miskiewiczmichal.greengrocerapi.DTOs.ProductNameDTO;
 import pl.miskiewiczmichal.greengrocerapi.entities.Category;
 import pl.miskiewiczmichal.greengrocerapi.entities.MeasureType;
 import pl.miskiewiczmichal.greengrocerapi.entities.Product;
+import pl.miskiewiczmichal.greengrocerapi.entities.ProductName;
 import pl.miskiewiczmichal.greengrocerapi.mappers.CategoryMapper;
 import pl.miskiewiczmichal.greengrocerapi.mappers.ProductMapper;
 import pl.miskiewiczmichal.greengrocerapi.repositories.CategoryRepository;
 import pl.miskiewiczmichal.greengrocerapi.repositories.MeasureTypeRepository;
+import pl.miskiewiczmichal.greengrocerapi.repositories.ProductNameRepository;
 import pl.miskiewiczmichal.greengrocerapi.repositories.ProductRepository;
 
 import java.util.List;
@@ -28,6 +31,7 @@ public class ProductService {
     private final CategoryMapper categoryMapper;
     private final CategoryRepository categoryRepository;
     private final MeasureTypeRepository measureTypeRepository;
+    private final ProductNameRepository productNameRepository;
 
     public List<ProductDTO> getAllProducts(){
         List<Product> products = (List<Product>) productRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
@@ -86,5 +90,10 @@ public class ProductService {
         List<Category> categories = categoryRepository.findAll();
         System.out.println(categories);
         return categories.stream().map(categoryMapper::mapCategoryToCategoryDTO).collect(Collectors.toList());
+    }
+
+    public List<ProductNameDTO> getProductsOfCategory(UUID uuid){
+        List<ProductName> productsNames = productNameRepository.getAllByCategory_Id(uuid);
+        return productsNames.stream().map(productMapper::mapProductNameToProductNameDto).collect(Collectors.toList());
     }
 }

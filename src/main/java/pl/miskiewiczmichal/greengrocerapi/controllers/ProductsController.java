@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.AddProductDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.CategoryDTO;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.ProductDTO;
+import pl.miskiewiczmichal.greengrocerapi.DTOs.ProductNameDTO;
 import pl.miskiewiczmichal.greengrocerapi.services.ProductService;
 
 import java.io.IOException;
@@ -36,6 +37,11 @@ public class ProductsController {
     @GetMapping("/categories/all")
     public ResponseEntity<List<CategoryDTO>> getCategoriesList() {
         return ResponseEntity.ok().body(productService.getAllCategories());
+    }
+
+    @GetMapping("/products-name/{category_id}")
+    public ResponseEntity<List<ProductNameDTO>> getCategoriesList(@PathVariable("category_id") UUID uuid) {
+        return ResponseEntity.ok().body(productService.getProductsOfCategory(uuid));
     }
 
     @PostMapping("/add")

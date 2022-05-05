@@ -12,8 +12,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "order_product_tb")
-public class OrderWithProducts {
+@Entity(name = "product_name_tb")
+public class ProductName {
 
     @Id
     @GeneratedValue(generator = "uuid4")
@@ -22,8 +22,9 @@ public class OrderWithProducts {
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
 
-    private Double amount;
-    
+    private String name;
+
     @ManyToOne
-    private Product product;
+    Category category;
 }
+

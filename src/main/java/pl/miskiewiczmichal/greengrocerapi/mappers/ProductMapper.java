@@ -4,7 +4,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import pl.miskiewiczmichal.greengrocerapi.DTOs.ProductDTO;
+import pl.miskiewiczmichal.greengrocerapi.DTOs.ProductNameDTO;
 import pl.miskiewiczmichal.greengrocerapi.entities.Product;
+import pl.miskiewiczmichal.greengrocerapi.entities.ProductName;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
@@ -20,4 +24,9 @@ public interface ProductMapper {
             @Mapping(source = "product.measureType", target = "measureType")
     })
     ProductDTO mapProductToProductDTO(Product product);
+
+    @Mappings({
+            @Mapping(source = "productName.name", target = "productName")
+    })
+    ProductNameDTO mapProductNameToProductNameDto(ProductName productName);
 }
