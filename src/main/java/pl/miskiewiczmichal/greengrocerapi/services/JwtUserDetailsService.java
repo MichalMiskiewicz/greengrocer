@@ -11,6 +11,7 @@ import pl.miskiewiczmichal.greengrocerapi.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -21,11 +22,11 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.getByUsername(username);
-        if (user.getUsername() != null) {
+        Optional<User> userOptional = userRepository.getByUsername(username);
+        if (userOptional.isPresent()) {
             List<SimpleGrantedAuthority> list = new ArrayList<>();
-            list.add(new SimpleGrantedAuthority(user.getUserType()));
-            return new User(user.getUsername(), user.getPassword(), list);
+            list.add(new SimpleGrantedAuthority(userOptional.get().getUserType()));
+            return new User(userOptional.get().getUsername(), userOptional.get().getPassword(), list);
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }

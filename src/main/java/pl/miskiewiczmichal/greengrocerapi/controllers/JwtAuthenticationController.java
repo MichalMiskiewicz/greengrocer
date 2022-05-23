@@ -44,7 +44,7 @@ public class JwtAuthenticationController {
                 .loadUserByUsername(authenticationRequest.getUsername());
 
 
-        User user = userRepository.getByUsername(userDetails.getUsername());
+        User user = userRepository.getByUsername(userDetails.getUsername()).get();
         final String token = jwtTokenUtil.generateToken(userDetails);
         UserAuthDTO userAuthDTO = userMapper.userDetailsToUserAuthDTO(user.getId(), user.getUserType(), user.getUsername(), token);
         return ResponseEntity.ok(userAuthDTO);

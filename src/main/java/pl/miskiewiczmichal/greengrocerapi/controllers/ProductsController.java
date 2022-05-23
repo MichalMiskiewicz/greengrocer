@@ -45,9 +45,13 @@ public class ProductsController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ProductDTO> addProduct(@RequestBody AddProductDTO productDTO) throws Exception {
-
-        return ResponseEntity.ok().body(productService.addNewProduct(productDTO));
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody AddProductDTO productDTO) {
+        try {
+            return ResponseEntity.ok().body(productService.addNewProduct(productDTO));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PatchMapping("/amount/{product_id}/{product_amount}")

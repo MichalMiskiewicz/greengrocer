@@ -110,8 +110,8 @@ public class OrderService {
     }
 
     public OrderDTO setDriver(UUID orderId, UUID driverId) throws Exception {
-        Order order = new Order();
-        User driver = new User();
+        Order order;
+        User driver;
         if(orderRepository.findById(orderId).isPresent()) {
             order = orderRepository.findById(orderId).get();
         }else {
